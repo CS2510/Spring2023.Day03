@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Pong</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canv"></canvas>
+    <script>
+        let canvas = document.querySelector("#canv")
+        let ctx = canvas.getContext("2d");
+
+
+        let keysDown = []
+        document.addEventListener("keydown",keyDown)
+        document.addEventListener("keyup",keyUp)
+
+        if(!0){
+            console.log("falsey")
+        }
+        if(0 === false)
+        {
+            console.log("False test")
+        }
+
+
+        function keyUp(e)
+        {
+            keysDown[e.key] = false
+            //console.log(e)
+            if(e.key == "ArrowLeft"){
+                console.log("Up Left")
+            }
+            if(e.key == "ArrowRight"){
+                console.log("Up Right")
+            }
+        }
+
+        function keyDown(e)
+        {
+            keysDown[e.key] = true
+            //console.log(e)
+            if(e.key == "ArrowLeft"){
+                console.log("Down Left")
+            }
+            if(e.key == "ArrowRight"){
+                console.log("Down Right")
+            }
+        }
+
+        //ctx.fillRect(20, 50, 100, 150)
+
+        let margin = 20;
+        let size = 100;
+
+        let pongX = margin + size / 2
+        let pongY = margin + size / 2
+        let pongVX = 3
+        let pongVY = 2
+
+        function update() {
+            //console.log(keysDown)
+
+            //Model of MVC
+            pongX += pongVX
+            pongY += pongVY
+
+            if (pongX > margin + size) {
+                pongVX *= -1
+            }
+            if (pongY > margin + size) {
+                pongVY *= -1
+            }
+            if (pongX < margin) {
+                pongVX *= -1
+            }
+            if (pongY < margin) {
+                pongVY *= -1
+            }
+        }
+
+        function draw() {
+            canvas.width = window.innerWidth
+            canvas.height = window.innerHeight
+            //View part of MVC
+            ctx.fillStyle = "green"
+            ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+            ctx.strokeStyle = "black"
+            ctx.beginPath()
+            ctx.moveTo(margin, margin)
+            ctx.lineTo(margin + size, margin)
+            ctx.lineTo(margin + size, margin + size)
+            ctx.lineTo(margin, margin + size)
+            ctx.lineTo(margin, margin)
+            ctx.stroke()
+
+            ctx.fillStyle = "blue"
+
+            ctx.beginPath()
+            ctx.arc(pongX, pongY, 5, 0, Math.PI * 2)
+            ctx.fill()
+
+        }
+
+        function gameLoop() {
+            update()
+            draw()
+        }
+
+        setInterval(gameLoop, 1000 / 25)
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>
